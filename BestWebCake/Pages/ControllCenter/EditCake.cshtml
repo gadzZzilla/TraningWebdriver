@@ -1,0 +1,56 @@
+@page "{id:Guid}"
+@model EditCakeModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewData["Title"] = "Редактирование записи";
+}
+<h1>@Model.Cake.Name</h1>
+<form enctype="multipart/form-data" method="POST" asp-controller="Cake" asp-action="UpdateCake">
+    <div class="row">
+    <div class="col-md-4">
+            <input asp-for="Cake.Id" type="hidden"/>
+                <div class="form-group">
+                    <label asp-for="Cake.Name">Название торта: </label>
+                    <input placeholder="@Model.Cake.Name" asp-for="Cake.Name" class="form-control"/>
+                    <span asp-validation-for="Cake.Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Cake.Description">Описание торта: </label>
+                    <input placeholder="@Model.Cake.Description" asp-for="Cake.Description" class="form-control"/>
+                    <span asp-validation-for="Cake.Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Cake.Price">Цена торта: </label>
+                    <input placeholder="@Model.Cake.Price" asp-for="Cake.Price" class="form-control"/>
+                    <span asp-validation-for="Cake.Price" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Cake.Weight">Вес торта: </label>
+                    <input placeholder="@Model.Cake.Weight" asp-for="Cake.Weight" class="form-control"/>
+                    <span asp-validation-for="Cake.Weight" class="text-danger"></span>
+                </div>
+        <div class="form-group">
+            <div>
+                @Html.LabelFor(model => model.Cake.Image)
+
+                <input asp-for="Cake.FilePath" type="file" name="files" onchange="preview_2(this)"/>
+            </div>
+        </div>
+
+</div>
+        <div class="form-group">
+            <img src="@Model.img64Url" id="Cake_Image" name ="Cake_Image" style="height: 300px;width: 300px;"/>
+            @*<img src='@Url.Action("GetImage", "Cake", Model.Cake)' style="height: 300px;width: 300px;"/>
+            <img asp-for="Image" id="Cake_Image" name ="Cake_Image" style="height: 300px;width: 300px;">
+            String img64Url = string.Format("data:image/"+@Model.Cake.Image+";base64,{0}", img64)*@
+        </div>
+                <div class="form-group">
+                    <button class="btn btn-default" asp-controller="Cake" asp-action="UpdateCake" method="post" >Сохранить</button>
+                    <button class="btn btn-default" asp-controller="Cake" asp-action="DeletePicCake" method="post" >Удалить картинку</button>
+                </div>
+        </div>
+</form>
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

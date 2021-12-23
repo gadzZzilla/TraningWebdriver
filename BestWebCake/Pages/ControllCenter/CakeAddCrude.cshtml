@@ -1,0 +1,71 @@
+@page "{id:Guid}"
+@model CakeAddCrudeModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "Создание записи";
+}
+<h1>Рецепт - @Model.Cake.Name</h1>
+
+<form method="POST">
+    <h1 style="display:none" asp-for="@Model.Cake.Id">@Model.Cake.Id</h1>
+    <div class="col-md-4">
+        <div class="form-group">
+            @Html.LabelFor(model => model.Crude.Name)
+            <div>
+                <select asp-for="@Model.SelectedCrude" class="form-control">
+                    @foreach (var itemCrude in Model.Crudes)
+                    {
+                        <option value="@itemCrude.Id">@itemCrude.Name</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.WeightCrude)
+            @Html.EditorFor(model => model.WeightCrude, new { htmlAttributes = new { @class = "form-control" } })
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.SelectedUnit">Измерение: </label>
+            <div>
+                <select asp-for="@Model.SelectedUnit" class="form-control">
+                    @foreach (var item in Model.Units)
+                    {
+                        <option value="@item.Id">@item.ShortName</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-default" asp-controller="ControllCenter" asp-action="AddCrude" method="post" asp-route-id="@Model.Cake.Id">Добавить</button>
+        </div>
+    </div>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            @*<th>Id</th>*@
+            <th>Продукт</th>
+            <th>Вес</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var MyItem in Model.CakeCrudes)
+        {
+            @if (MyItem.CakeId == Model.Cake.Id)
+            {
+                <tr>
+                    <td>@MyItem.CrudeEntity.Name</td>
+                    <td>@MyItem.UnitEntity.ShortName</td>
+                    <td>@MyItem.WeightCrude</td>
+                    <td>
+                        <button class="btn btn-default" asp-controller="ControllCenter" asp-action="Delete" method="post" asp-route-id="@MyItem.Id">удалить</button>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

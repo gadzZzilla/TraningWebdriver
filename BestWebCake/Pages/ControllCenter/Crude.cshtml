@@ -1,0 +1,39 @@
+@page
+@model CrudeModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "Продукты";
+}
+<h1>Продукты</h1>
+<form method="post">
+        <div class="form-group">
+            <button asp-page="./CreateCrude" class="btn btn-default">Создать</button>
+        </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Название продукта</th>
+                <th>Измерение</th>
+                <th>Цена</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var crude in Model.Crudes)
+            {
+                <tr>
+                    <td>@crude.Name</td>
+                    <td>@crude.UnitEntity.ShortName</td>
+                    <td>@crude.Price p.</td>
+                    <td>
+                        <button class="btn btn-default" asp-page="./EditCrude" asp-route-id="@crude.Id">редактировать</button>
+                        <button class="btn btn-default" type="submit"  asp-page-handler="delete" asp-route-id="@crude.Id">удалить</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</form>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

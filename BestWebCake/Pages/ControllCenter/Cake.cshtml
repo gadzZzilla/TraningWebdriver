@@ -1,0 +1,43 @@
+@page
+@model CakeModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "Торты";
+}
+<h1>Торты</h1>
+<form method="post">
+        <div class="form-group">
+            <button asp-page="./CreateCake" class="btn btn-default">Создать</button>
+        </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Название</th>
+                <th>Описание</th>
+                <th>Вес</th>
+                <th>Себестоимость</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var cake in Model.Cakes)
+            {
+                <tr>
+                    <td>@cake.Name</td>
+                    <td>@cake.Description</td>
+                    <td>@cake.Weight Кг.</td>
+                    <td>@cake.Price</td>
+                    <td>
+                        <button class="btn btn-default" asp-page="./CakeAddCrude" asp-route-id="@cake.Id">рецепт</button>
+                        <button class="btn btn-default" asp-page="./EditCake" asp-route-id="@cake.Id">редактировать</button>
+                        <button class="btn btn-default" asp-controller="ControllCenter" asp-action="Calculate" asp-route-id="@cake.Id">цена</button>
+                        <button class="btn btn-default" type="submit"  asp-page-handler="delete" asp-route-id="@cake.Id">удалить</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</form>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

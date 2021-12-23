@@ -1,0 +1,30 @@
+@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@inject RoleManager<IdentityRole> RoleManager
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <form asp-controller="Account" asp-action="Logout" method="post" class="navbar-right">
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                <a asp-page="/ControllCenter/Index" title="ControllCenter">Администрирование</a>
+            </li>
+            <li>
+                <a asp-page="/Account/Manage/Index" title="Manage">Привет, @UserManager.GetUserName(User)</a>
+            </li>
+            <li>
+                @*<a asp-page="/LogOut" title="ControllCenter">Выйти</a>*@
+                <a asp-page="/Account/Logout">Выйти</a>
+            </li>
+        </ul>
+    </form>
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li><a asp-page="/Account/Register">Регистрация</a></li>
+        <li><a asp-page="/Account/Login">Войти</a></li>
+    </ul>
+}

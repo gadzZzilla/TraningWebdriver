@@ -1,0 +1,41 @@
+@page
+@model CreateCrudeModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "Создание записи";
+}
+    <form method="POST">
+    <div class="row">
+    <div class="col-md-4">
+        <div class="form-group">
+            <label asp-for="Crude.Name">Продукт: </label>
+            <input asp-for="Crude.Name" class="form-control" />
+            <span asp-validation-for="Crude.Name" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.SelectedUnit">Измерение: </label>
+            <div>
+            <select asp-for="@Model.SelectedUnit" class="form-control">
+                @foreach (var item in Model.Units)
+                {
+                    <option value="@item.Id">@item.ShortName</option>
+                }
+            </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Crude.Price">Цена: </label>
+            <input asp-for="Crude.Price" class="form-control" />
+            <span asp-validation-for="Crude.Price" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-default" asp-controller="ControllCenter" asp-action="CreateNewCrude" method="post" asp-route-id="@Model.SelectedUnit">Сохранить</button>
+            @*<button type="submit" class="btn btn-default">Сохранить</button>*@
+        </div>
+    </form>
+    </div>
+    </div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
